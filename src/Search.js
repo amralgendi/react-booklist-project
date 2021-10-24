@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import debounce from "lodash.debounce";
 import * as BooksAPI from "./BooksAPI";
 import Book from "./Book";
 
@@ -8,19 +9,19 @@ const Search = ({ booksState }) => {
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
 
-  var letSearch = false;
+  // eslint-disable-next-line
+  const debounceSearch = useCallback(
+    debounce((value) => searchQuery(value), 500),
+    []
+  );
+
   const searchQuery = async (query) => {
-    if (!letSearch) {
-      letSearch = true;
-      if (query !== "") {
-        const searched = await BooksAPI.search(query);
-        setSearch(searched);
-      } else {
-        setSearch(query);
-      }
-      letSearch = false;
+    console.log(query);
+    if (query !== "") {
+      const searched = await BooksAPI.search(query);
+      setSearch(searched);
     } else {
-      setTimeout(() => searchQuery(query), 5);
+      setSearch(query);
     }
   };
 
@@ -46,7 +47,7 @@ const Search = ({ booksState }) => {
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
-              searchQuery(e.target.value);
+              debounceSearch(e.target.value);
             }}
           />
         </div>
