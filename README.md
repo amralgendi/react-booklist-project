@@ -13,5 +13,5 @@ Each book can be clicked by the user to show details about the book.
 You need access to nodejs and npm
 
 1- Run your terminal
-2- Run the command 'npm install' to install al; the modules needed for this project
+2- Run the command 'npm install' to install all the modules needed for this project
 3- Run the command 'npm start' to get the project running on a local server
